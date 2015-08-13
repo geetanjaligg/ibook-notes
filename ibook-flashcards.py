@@ -1,6 +1,7 @@
 import os
 import sqlite3
 import random
+from DictionaryServices import *
 
 bookDB = '/Users/gggg/Library/Containers/com.apple.iBooksX/Data/Documents/BKLibrary/'
 notesDB = '/Users/gggg/Library/Containers/com.apple.iBooksX/Data/Documents/AEAnnotation/'
@@ -33,7 +34,14 @@ rand = random.randint(0,len(notes))
 word = notes[rand][1]
 context = notes[rand][0]
 print 'word: ' + word
-print 'meaning: ' #yet to add
+wordrange = (0, len(word))
+dictresult = DCSCopyTextDefinition(None, word, wordrange)
+if not dictresult:
+    errmsg = "'%s' not found in Dictionary." % (word)
+    print errmsg.encode('utf-8')
+else:
+    print 'meaning: ' + dictresult.encode('utf-8')
+
 print 'context: ' + context
 book = [x for x in books if x[0]==notes[rand][-1]][0]
 print 'book: ' + book[1] + ', ' + book[2]
